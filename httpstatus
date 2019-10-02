@@ -69,26 +69,30 @@ if (@ARGV==1) {
     if (my $msg = $StatusCode{$key}) {
         # httpstatus 403
         # httpstatus 500
-        printf "%s\n", $msg;
+        printf "%s\n", (ref $msg ? join("; ", @$msg) : $msg);
     } elsif ($key =~ /^[12345]/) {
         # httpstatus 4
         # httpstatus 40
         for (sort keys %StatusCode) {
             next unless /^$key/;
-            print "$_ $StatusCode{$_}\n";
+            my $msg = $StatusCode{$_};
+            print "$_ ", (ref $msg ? join("; ", @$msg) : $msg), "\n";
         }
     } else {
         # httpstatus Bad
         # httpstatus Forbidden
         for (sort keys %StatusCode) {
-            next unless $StatusCode{$_} =~ /$key/;
-            print "$_ $StatusCode{$_}\n";
+            my $msg = $StatusCode{$_};
+            my $msg_str = (ref $msg ? join("; ", @$msg) : $msg);
+            next unless $msg_str =~ /$key/;
+            print "$_ $msg_str\n";
         }
     }
 } else {
     # List all http status
     for (sort keys %StatusCode) {
-        print "$_ $StatusCode{$_}\n";
+        my $msg = $StatusCode{$_};
+        print "$_ ", (ref $msg ? join("; ", @$msg) : $msg), "\n";
     }
 }
 
