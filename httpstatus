@@ -80,8 +80,9 @@ if (@ARGV==1) {
     } else {
         # httpstatus Bad
         # httpstatus Forbidden
+        # httpstatus 04
         for (sort keys %StatusCode) {
-            next unless $StatusCode{$_} =~ /$key/;
+            next unless /$key/ || $StatusCode{$_} =~ /$key/;
             print "$_ $StatusCode{$_}\n";
         }
     }
